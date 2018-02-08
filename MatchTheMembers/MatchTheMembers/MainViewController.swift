@@ -32,8 +32,12 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //// Navigation bar settings
+        //// Navigation bar & view settings
         self.navigationItem.title = "Match the Members!"
+        self.navigationController?.navigationBar.barTintColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
+        self.navigationController?.navigationBar.tintColor = .black
+        self.navigationItem.backBarButtonItem?.title = " "
+        //view.backgroundColor = #colorLiteral(red: 1, green: 0.9669488943, blue: 0.2643121563, alpha: 1)
         
         /// Button for stats screen
         let statsButton = UIButton(type: UIButtonType.infoDark)
@@ -64,19 +68,25 @@ class MainViewController: UIViewController {
         for i in 0..<4 {
             var buttonX: Int!
             var buttonY: Int!
-            
+            let buttonXSpacing = 30
+            let buttonWidth = Int((Int(view.frame.width) - (buttonXSpacing*3))/2)
+
             if i <= 1 { //first row of buttons
-                buttonX = 15 + 175*i
+                buttonX = buttonXSpacing + (buttonWidth + buttonXSpacing)*i
                 buttonY = scoreY + labelHeight + 10
             }
             else {
-                buttonX = 15 + 175*(i-2)
+                buttonX = buttonXSpacing + (buttonWidth + buttonXSpacing)*(i-2)
                 buttonY = scoreY + labelHeight + 80
             }
             
-            let buttonWidth = 175
-            
-            let b = UIButton(frame: CGRect(x: buttonX, y: buttonY, width: buttonWidth, height: 50))
+            let b = UIButton(frame: CGRect(x: buttonX, y: buttonY, width: buttonWidth, height: 60))
+            b.titleLabel?.font = UIFont.init(name: "Helvetica", size: 16)
+            b.titleLabel?.numberOfLines = 2
+            b.titleLabel?.textAlignment = .center
+            b.layer.borderColor = UIColor.black.cgColor
+            b.layer.borderWidth = 5
+            b.layer.cornerRadius = 10
             b.addTarget(self, action: #selector(tappedButton), for: .touchUpInside)
             b.setTitle("Name " + String(i), for: .normal)
             b.setTitleColor(.blue, for: .normal)
@@ -95,7 +105,7 @@ class MainViewController: UIViewController {
         view.addSubview(timerLabel)
         
         //Timer ProgressBar Setup
-        timerProgressBar = UIProgressView(frame: CGRect(x: 0, y: view.frame.height - 10, width: view.frame.width, height: 10))
+        timerProgressBar = UIProgressView(frame: CGRect(x: 0, y: view.frame.height - 10, width: view.frame.width, height: 40))
         timerProgressBar.setProgress(0.0, animated: true)
         view.addSubview(timerProgressBar)
     }
