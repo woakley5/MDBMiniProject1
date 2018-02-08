@@ -23,7 +23,7 @@ class MainViewController: UIViewController {
     var timerProgressBar: UIProgressView!
     
     //Other Variables
-    var members = ["Daniel Andrews", "Nikhar Arora", "Tiger Chen", "Xin Yi Chen", "Julie Deng", "Radhika Dhomse", "Kaden Dippe", "Angela Dong", "Zach Govani", "Shubham Gupta", "Suyash Gupta", "Joey Hejna", "Cody Hsieh", "Stephen Jayakar", "Aneesh Jindal", "Mohit Katyal", "Mudabbir Khan", "Akkshay Khoslaa", "Justin Kim", "Eric Kong", "Abhinav Koppu", /*"Srujay Korlakunta",*/ "Ayush Kumar", "Shiv Kushwah", "Leon Kwak", "Sahil Lamba", "Young Lin", "William Lu", "Louie McConnell", "Max Miranda", "Will Oakley", "Noah Pepper", "Samanvi Rai", "Krishnan Rajiyah", "Vidya Ravikumar", "Shreya Reddy", "Amy Shen", "Wilbur Shi", "Sumukh Shivakumar", "Fang Shuo", "Japjot Singh", "Victor Sun", "Sarah Tang", "Kanyes Thaker", "Aayush Tyagi", "Levi Walsh", "Carol Wang", "Sharie Wang", "Ethan Wong", "Natasha Wong", "Aditya Yadav", "Candice Ye", "Vineeth Yeevani", /*"Jeffery Zhang"*/]
+    var members = ["Daniel Andrews", "Nikhar Arora", "Tiger Chen", "Xin Yi Chen", "Julie Deng", "Radhika Dhomse", "Kaden Dippe", "Angela Dong", "Zach Govani", "Shubham Gupta", "Suyash Gupta", "Joey Hejna", "Cody Hsieh", "Stephen Jayakar", "Aneesh Jindal", "Mohit Katyal", "Mudabbir Khan", "Akkshay Khoslaa", "Justin Kim", "Eric Kong", "Abhinav Koppu", "Srujay Korlakunta", "Ayush Kumar", "Shiv Kushwah", "Leon Kwak", "Sahil Lamba", "Young Lin", "William Lu", "Louie McConnell", "Max Miranda", "Will Oakley", "Noah Pepper", "Samanvi Rai", "Krishnan Rajiyah", "Vidya Ravikumar", "Shreya Reddy", "Amy Shen", "Wilbur Shi", "Sumukh Shivakumar", "Fang Shuo", "Japjot Singh", "Victor Sun", "Sarah Tang", "Kanyes Thaker", "Aayush Tyagi", "Levi Walsh", "Carol Wang", "Sharie Wang", "Ethan Wong", "Natasha Wong", "Aditya Yadav", "Candice Ye", "Vineeth Yeevani", "Jeffrey Zhang"]
     var score = 0
     var streak = 0
     var correctButtonNumber: Int! = -1
@@ -38,7 +38,8 @@ class MainViewController: UIViewController {
         self.navigationController?.navigationBar.tintColor = .black
         self.navigationItem.backBarButtonItem?.title = " "
         //view.backgroundColor = #colorLiteral(red: 1, green: 0.9669488943, blue: 0.2643121563, alpha: 1)
-        
+        self.navigationItem.backBarButtonItem = UIBarButtonItem.init(title: " ", style: .plain, target: nil, action: nil)
+
         /// Button for stats screen
         let statsButton = UIButton(type: UIButtonType.infoDark)
         statsButton.addTarget(self, action: #selector(showStatsScreen), for: .touchUpInside)
@@ -126,6 +127,7 @@ class MainViewController: UIViewController {
     }
     
     func newQuestion(){
+        
         let personNumber = Int(arc4random_uniform(UInt32(members.count))) //generates random person
         print("Person: " + members[personNumber])
         let imageName = members[personNumber].replacingOccurrences(of: " ", with: "").lowercased() //gets image name
@@ -141,13 +143,15 @@ class MainViewController: UIViewController {
             if i != correctButtonNumber{ //skip over the button that is already set
                 let randomNameIndex = Int(arc4random_uniform(UInt32(members.count)))
                 if randomNameIndex != personNumber { //cant display correct answer twice
-                    let b = view.viewWithTag(i + 1) as! UIButton
+                    let b = view.viewWithTag(i + 1) as! UIButton  //CRASHH SOMETIMES WHEN GOING BACK - see if statement below
                     b.setTitle(members[randomNameIndex], for: .normal)
                     i = i + 1
                 }
                 else{
                     print("Correct answer twice")
-                    i = i - 1
+                    if i != 0{ //prevents the tag crash (so tag never gets to -1)
+                        i = i - 1
+                    }
                 }
             }
             else{
@@ -164,9 +168,10 @@ class MainViewController: UIViewController {
     }
     
     func showCorrectAnswer(){
+        mainTimer.invalidate()
         for i in 0..<4{
             let b = view.viewWithTag(i + 1) as! UIButton
-            b.isUserInteractionEnabled = false  //disables button while showing correct answer
+            b.isUserInteractionEnabled = false  //disables buttons while showing correct answer
             b.backgroundColor = .red
         }
         
@@ -222,6 +227,16 @@ class MainViewController: UIViewController {
     @objc func showStatsScreen(){
         mainTimer.invalidate()
         self.performSegue(withIdentifier: "showStatsScreen", sender: self)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.destination is StatsViewController{
+            print("Hey were going to the stats view controller!")
+            let d = segue.destination as! StatsViewController
+            d.last3Answers = self.last3Answers
+            d.score = self.score
+            d.streak = self.streak
+        }
     }
 
 }
