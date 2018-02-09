@@ -16,11 +16,11 @@ class MainViewController: UIViewController {
     var selectLabel: UILabel!
     var scoreLabel: UILabel!
     var timerLabel: UILabel!
-    
-    //Timers
+    var timerProgressBar: UIProgressView!
+
+    //Timer variables
     var mainTimer: Timer!
     var time: Float = 5.0
-    var timerProgressBar: UIProgressView!
     
     //Other Variables
     var members = ["Daniel Andrews", "Nikhar Arora", "Tiger Chen", "Xin Yi Chen", "Julie Deng", "Radhika Dhomse", "Kaden Dippe", "Angela Dong", "Zach Govani", "Shubham Gupta", "Suyash Gupta", "Joey Hejna", "Cody Hsieh", "Stephen Jayakar", "Aneesh Jindal", "Mohit Katyal", "Mudabbir Khan", "Akkshay Khoslaa", "Justin Kim", "Eric Kong", "Abhinav Koppu", "Srujay Korlakunta", "Ayush Kumar", "Shiv Kushwah", "Leon Kwak", "Sahil Lamba", "Young Lin", "William Lu", "Louie McConnell", "Max Miranda", "Will Oakley", "Noah Pepper", "Samanvi Rai", "Krishnan Rajiyah", "Vidya Ravikumar", "Shreya Reddy", "Amy Shen", "Wilbur Shi", "Sumukh Shivakumar", "Fang Shuo", "Japjot Singh", "Victor Sun", "Sarah Tang", "Kanyes Thaker", "Aayush Tyagi", "Levi Walsh", "Carol Wang", "Sharie Wang", "Ethan Wong", "Natasha Wong", "Aditya Yadav", "Candice Ye", "Vineeth Yeevani", "Jeffrey Zhang"]
@@ -47,7 +47,7 @@ class MainViewController: UIViewController {
         
         //Image View Setup
         let imgX = 30
-        let imgY = 90
+        let imgY = Int((self.navigationController?.navigationBar.frame.height)! + self.view.frame.height * 0.07)
         let imgDimension = Int(self.view.frame.width) - (imgX * 2)
         mainImageView = UIImageView(frame: CGRect(x: imgX, y: imgY, width: imgDimension, height: imgDimension))
         mainImageView.contentMode = .scaleAspectFit
@@ -55,9 +55,9 @@ class MainViewController: UIViewController {
         
         //Score Label Setup
         let scoreX = 50
-        let scoreY = imgY + imgDimension + 20
+        let scoreY = imgY + imgDimension
         let labelWidth = Int(self.view.frame.width) - (scoreX * 2)
-        let labelHeight = 30
+        let labelHeight = 40
         scoreLabel = UILabel(frame: CGRect(x: scoreX, y: scoreY, width: labelWidth, height: labelHeight))
         scoreLabel.textAlignment = .center
         scoreLabel.text = "Score: 0"
@@ -106,7 +106,7 @@ class MainViewController: UIViewController {
         view.addSubview(timerLabel)
         
         //Timer ProgressBar Setup
-        timerProgressBar = UIProgressView(frame: CGRect(x: 0, y: view.frame.height - 10, width: view.frame.width, height: 40))
+        timerProgressBar = UIProgressView(frame: CGRect(x: 0, y: view.frame.height - self.additionalSafeAreaInsets.bottom - 10, width: view.frame.width, height: 40))
         timerProgressBar.setProgress(0.0, animated: true)
         view.addSubview(timerProgressBar)
     }
@@ -143,7 +143,7 @@ class MainViewController: UIViewController {
             if i != correctButtonNumber{ //skip over the button that is already set
                 let randomNameIndex = Int(arc4random_uniform(UInt32(members.count)))
                 if randomNameIndex != personNumber { //cant display correct answer twice
-                    let b = view.viewWithTag(i + 1) as! UIButton  //CRASHH SOMETIMES WHEN GOING BACK - see if statement below
+                    let b = view.viewWithTag(i + 1) as! UIButton  //<fixed because tag was reaching -1> CRASH SOMETIMES WHEN GOING BACK - see if statement below
                     b.setTitle(members[randomNameIndex], for: .normal)
                     i = i + 1
                 }

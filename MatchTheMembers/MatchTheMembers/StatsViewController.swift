@@ -32,21 +32,32 @@ class StatsViewController: UIViewController {
     }
     
     func populateScore(){
-        let scoreLabel = UILabel(frame: CGRect(x: 50, y: 80, width: view.frame.width - 100, height: 20))
-        scoreLabel.text = "Score: " + String(score!)
+        let labelY = Int((self.navigationController?.navigationBar.frame.height)! + self.view.frame.height * 0.05)
+        
+        let scoreLabel = UILabel(frame: CGRect(x: 20, y: labelY, width: Int(self.view.frame.width/2 - 40), height: 60))
+        scoreLabel.text = "Score: " + String(score!) + "\n"
+        scoreLabel.textAlignment = .center
+        scoreLabel.numberOfLines = 2
         view.addSubview(scoreLabel)
         
-        let streakLabel = UILabel(frame: CGRect(x: 50, y: 150, width: view.frame.width - 100, height: 20))
+        let streakLabel = UILabel(frame: CGRect(x: Int(view.frame.width/2 + 20), y: labelY, width: Int(view.frame.width/2 - 40), height: 60))
+        streakLabel.textAlignment = .center
+        streakLabel.numberOfLines = 2
         if streak! > 0{
-            streakLabel.text = "Streak: " + String(streak!) + "  🔥🔥🔥" //gotta add those emojis 🤪
+            streakLabel.text = "Streak: " + String(streak!) + "\n🔥🔥🔥" //gotta add those emojis 🤪
         }
         else{
-            streakLabel.text = "Streak: " + String(streak!) + " ☹️"
+            streakLabel.text = "Streak: " + String(streak!) + "\n☹️"
         }
         view.addSubview(streakLabel)
     }
 
     func populateLast3(){
+        let populate3TitleLabel = UILabel(frame: CGRect(x: 0, y: view.frame.height * 0.25, width: view.frame.width, height: 20))
+        populate3TitleLabel.text = "Recent Answers"
+        populate3TitleLabel.font = UIFont.init(name: "Helvetica Bold", size: 20)
+        populate3TitleLabel.textAlignment = .center
+        view.addSubview(populate3TitleLabel)
         for (i, n) in last3Answers!.enumerated(){
             let imageView = UIImageView(frame: CGRect(x: 50, y: 200 + i * 150, width: 125, height: 125))
             let imageName =  n.replacingOccurrences(of: " ", with: "").lowercased()

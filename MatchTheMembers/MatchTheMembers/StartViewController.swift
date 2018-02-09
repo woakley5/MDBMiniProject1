@@ -19,15 +19,23 @@ class StartViewController: UIViewController {
         
         view.backgroundColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
         
-        startButton = UIButton(frame: CGRect(x: 50, y: 200, width: view.frame.width - 100, height: 100))
-        startButton.setTitle("Start the Game!", for: .normal)
-        startButton.setTitleColor(.blue, for: .normal)
-        startButton.addTarget(self, action: #selector(showMainScreen), for: .touchUpInside)
-        
         mainImage = UIImageView(frame: CGRect(x: 20, y: 30, width: view.frame.width - 40, height: 200))
         mainImage.contentMode = .scaleAspectFit
         mainImage.image = #imageLiteral(resourceName: "logo")
         view.addSubview(mainImage)
+
+        titleLabel = UILabel(frame: CGRect(x: 20, y: 150, width: view.frame.width - 40, height: 350))
+        titleLabel.numberOfLines = 2
+        titleLabel.textAlignment = .center
+        titleLabel.font = UIFont(name: "Helvetica Bold", size: 60.0)
+        titleLabel.textColor = .white
+        titleLabel.text = "Match the Members!"
+        view.addSubview(titleLabel)
+        
+        startButton = UIButton(frame: CGRect(x: 50, y: 400, width: view.frame.width - 100, height: 100))
+        startButton.setTitle("Start the Game!", for: .normal)
+        startButton.setTitleColor(.blue, for: .normal)
+        startButton.addTarget(self, action: #selector(showMainScreen), for: .touchUpInside)
         view.addSubview(startButton)
     }
     
