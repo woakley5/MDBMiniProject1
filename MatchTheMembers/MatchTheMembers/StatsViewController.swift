@@ -69,5 +69,4 @@ class StatsViewController: UIViewController {
             view.addSubview(imageLabel)
         }
     }
-
 }

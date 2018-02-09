@@ -32,9 +32,13 @@ class StartViewController: UIViewController {
         titleLabel.text = "Match the Members!"
         view.addSubview(titleLabel)
         
-        startButton = UIButton(frame: CGRect(x: 50, y: 400, width: view.frame.width - 100, height: 100))
+        startButton = UIButton(frame: CGRect(x: 50, y: 450, width: view.frame.width - 100, height: 75))
         startButton.setTitle("Start the Game!", for: .normal)
-        startButton.setTitleColor(.blue, for: .normal)
+        startButton.titleLabel?.font = UIFont.init(name: "Helvetica Bold", size: 24.0)
+        startButton.setTitleColor(#colorLiteral(red: 1, green: 0.9550089813, blue: 0, alpha: 1), for: .normal)
+        startButton.layer.borderColor = UIColor.white.cgColor
+        startButton.layer.borderWidth = 5
+        startButton.layer.cornerRadius = 10
         startButton.addTarget(self, action: #selector(showMainScreen), for: .touchUpInside)
         view.addSubview(startButton)
     }
@@ -47,6 +51,4 @@ class StartViewController: UIViewController {
     @objc func showMainScreen(){
         self.performSegue(withIdentifier: "showMainScreen", sender: self)
     }
-
-
 }

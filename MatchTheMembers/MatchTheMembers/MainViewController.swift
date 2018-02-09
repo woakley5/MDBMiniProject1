@@ -238,5 +238,4 @@ class MainViewController: UIViewController {
             d.streak = self.streak
         }
     }
-
 }
