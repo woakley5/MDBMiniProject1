@@ -66,14 +66,14 @@ class StatsViewController: UIViewController {
             let y: Int
             let width = 125
             let height = 125
+            let buffer = (Int(view.frame.width/2) - width)/2
             if i < 2{
-                let buffer = (Int(view.frame.width/2) - width)/2
                 x =  (Int(view.frame.width)/2 - buffer - width) + (i * (width + buffer * 2))
-                y = 200
+                y = Int(view.frame.height * 0.3)
             }
             else{
                 x =  Int(view.frame.width/2 - 125/2)
-                y = 400
+                y = Int(view.frame.height * 0.3) + height + 55 + buffer
             }
             let imageView = UIImageView(frame: CGRect(x: x, y: y, width: width, height: height))
             let imageName =  n.replacingOccurrences(of: " ", with: "").lowercased()
