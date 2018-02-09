@@ -45,6 +45,12 @@ class MainViewController: UIViewController {
         statsButton.addTarget(self, action: #selector(showStatsScreen), for: .touchUpInside)
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: statsButton)
         
+        //Button to Stop
+        let stopButton = UIButton(type: .custom)
+        stopButton.setTitle("Quit", for: .normal)
+        stopButton.addTarget(self, action: #selector(returnToHomeScreen), for: .touchUpInside)
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: stopButton)
+        
         //Image View Setup
         let imgX = 30
         let imgY = Int((self.navigationController?.navigationBar.frame.height)! + self.view.frame.height * 0.07)
@@ -227,6 +233,15 @@ class MainViewController: UIViewController {
     @objc func showStatsScreen(){
         mainTimer.invalidate()
         self.performSegue(withIdentifier: "showStatsScreen", sender: self)
+    }
+    
+    @objc func returnToHomeScreen(){
+        mainTimer.invalidate()
+        score = 0
+        scoreLabel.text = "Score: 0"
+        self.dismiss(animated: true) {
+            print("Done!")
+        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

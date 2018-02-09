@@ -80,7 +80,7 @@ class StatsViewController: UIViewController {
             imageView.image = UIImage(named: imageName)
             view.addSubview(imageView)
             
-            let imageLabel = UILabel(frame: CGRect(x: x, y: y + height, width: width, height: 40))
+            let imageLabel = UILabel(frame: CGRect(x: x, y: y + height, width: width, height: 55))
             imageLabel.text = n
             imageLabel.textAlignment = .center
             imageLabel.numberOfLines = 2
