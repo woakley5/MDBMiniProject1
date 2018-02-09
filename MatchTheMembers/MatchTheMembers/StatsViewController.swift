@@ -58,14 +58,32 @@ class StatsViewController: UIViewController {
         populate3TitleLabel.font = UIFont.init(name: "Helvetica Bold", size: 20)
         populate3TitleLabel.textAlignment = .center
         view.addSubview(populate3TitleLabel)
+        //Setting up all images and labels in this pattern:
+        //  1     2
+        //     3
         for (i, n) in last3Answers!.enumerated(){
-            let imageView = UIImageView(frame: CGRect(x: 50, y: 200 + i * 150, width: 125, height: 125))
+            let x: Int
+            let y: Int
+            let width = 125
+            let height = 125
+            if i < 2{
+                let buffer = (Int(view.frame.width/2) - width)/2
+                x =  (Int(view.frame.width)/2 - buffer - width) + (i * (width + buffer * 2))
+                y = 200
+            }
+            else{
+                x =  Int(view.frame.width/2 - 125/2)
+                y = 400
+            }
+            let imageView = UIImageView(frame: CGRect(x: x, y: y, width: width, height: height))
             let imageName =  n.replacingOccurrences(of: " ", with: "").lowercased()
             imageView.image = UIImage(named: imageName)
             view.addSubview(imageView)
             
-            let imageLabel = UILabel(frame: CGRect(x: imageView.frame.minX + imageView.frame.width + 20, y: imageView.frame.minY + imageView.frame.height/2 - 10, width: 200, height: 20))
+            let imageLabel = UILabel(frame: CGRect(x: x, y: y + height, width: width, height: 40))
             imageLabel.text = n
+            imageLabel.textAlignment = .center
+            imageLabel.numberOfLines = 2
             view.addSubview(imageLabel)
         }
     }
